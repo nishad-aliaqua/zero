@@ -7,30 +7,11 @@ on:
   repository_dispatch:
     types: [deployment-completed-notification-event]
 
-  workflow_dispatch:
-    inputs:
-      message:
-        description: 'Tag of tests to include'
-        required: false
-        default: ''
-        type: string
-
-      debug:
-        description: 'Tag of tests to exclude'
-        required: false
-        default: ''
-        type: string
-
 jobs:
-  print-details:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Print the event payload
-        run: echo "${{ inputs.message }}"
-  # trigger-tests-on-an-external-event:
-  #   uses: ./.github/workflows/reusable-workflow-to-run-tests.yml
-  #   with:
-  #     tags-of-tests-to-include: ${{ github.event.client_payload.TAG }}  # -Dgroups="" means execute all test cases
-  #     tags-of-tests-to-exclude: ""  # -DexcludedGroups="" means don't exclude any test case
-  #     test-environment: ${{ github.event.client_payload.TEST_ENV }}
-  #   secrets: inherit
+  trigger-tests-on-an-external-event:
+    uses: ./.github/workflows/reusable-workflow-to-run-tests.yml
+    with:
+      tags-of-tests-to-include: ${{ github.event.client_payload.TAG }}  # -Dgroups="" means execute all test cases
+      tags-of-tests-to-exclude: ""  # -DexcludedGroups="" means don't exclude any test case
+      test-environment: ${{ github.event.client_payload.TEST_ENV }}
+    secrets: inherit

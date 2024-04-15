@@ -7,6 +7,8 @@ on:
   repository_dispatch:
     types: [deployment-completed-notification-event]
 
+  workflow_dispatch:
+
 jobs:
   trigger-tests-on-an-external-event:
     uses: ./.github/workflows/reusable-workflow-to-run-tests.yml
